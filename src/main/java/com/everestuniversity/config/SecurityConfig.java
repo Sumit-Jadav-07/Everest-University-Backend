@@ -44,6 +44,7 @@ public class SecurityConfig {
 		return authConfig.getAuthenticationManager();
 	}
 
+<<<<<<< HEAD
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
@@ -56,6 +57,15 @@ public class SecurityConfig {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+=======
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Your React app's origin
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(List.of("*"));
+>>>>>>> 9d3d5f3947d388e4e7668f61682e8528f1ac1043
 
 	@Bean
 	public JwtAuthenticationFilter tokenFilter() {

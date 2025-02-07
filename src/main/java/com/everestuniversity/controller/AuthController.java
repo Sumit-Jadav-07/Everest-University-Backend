@@ -71,7 +71,7 @@ public class AuthController {
         if (op.isEmpty()) {
             response.put("success", false);
             response.put("message", "EnrollmentId is not registered");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok(response);
         }
 
         StudentEntity student = op.get();
@@ -80,12 +80,12 @@ public class AuthController {
             if (!encoder.matches(loginRequest.getPassword(), student.getPassword())) {
                 response.put("success", false);
                 response.put("message", "Incorrect password");
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.ok(response);
             }
         } else {
             response.put("success", false);
             response.put("message", "Incorrect enrollmentId");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok(response);
         }
 
         String token = jwtService.generateToken(student.getEmail(), "student");
@@ -121,12 +121,12 @@ public class AuthController {
             if (!encoder.matches(loginRequest.getPassword(), adminEntity.getPassword())) {
                 response.put("success", false);
                 response.put("message", "Wrong password.");
-                return ResponseEntity.badRequest().body(response);
+                return ResponseEntity.ok(response);
             }
         } else {
             response.put("success", false);
             response.put("message", "Wrong email");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.ok(response);
         }
         
         String token = jwtService.generateToken(adminEntity.getEmail(), "admin");
