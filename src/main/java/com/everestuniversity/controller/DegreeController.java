@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.everestuniversity.entity.DegreeEntity;
 import com.everestuniversity.entity.SemesterEntity;
-import com.everestuniversity.repository.SemesterRepository;
 import com.everestuniversity.service.DegreeService;
 import com.everestuniversity.service.UUIDService;
 
