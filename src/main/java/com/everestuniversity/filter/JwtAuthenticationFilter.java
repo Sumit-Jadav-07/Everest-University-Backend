@@ -28,13 +28,16 @@ public class JwtAuthenticationFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
-        String url = req.getRequestURL().toString();
-
+        String url = req.getRequestURI();
+        System.out.println("Url from filter" +  url);
+        
         // Skip authentication for public endpoints
         if (isPublicEndpoint(url)) {
+            System.out.println("Skipping JWT Authentication for: " + req.getRequestURI());
             chain.doFilter(request, response);
             return;
         }
+
 
         String token = req.getHeader("Authorization");
 
@@ -67,9 +70,14 @@ public class JwtAuthenticationFilter implements Filter {
     }
 
     private boolean isPublicEndpoint(String url) {
-        return url.contains("/api/public/") || url.contains("/v3/") || url.contains("/swagger-ui/")
+        boolean isPublic = url.contains("/public/") || url.contains("/v3/") || url.contains("/swagger-ui/")
                 || url.contains("/swagger-resources/") || url.contains("/webjars/") || url.contains("/generate-token");
+
+        System.out.println("Checking public endpoint: " + url + " | isPublic: " + isPublic);
+        return isPublic;
     }
+
+
 
     private void sendErrorResponse(ServletResponse response, String message) throws IOException {
         HttpServletResponse res = (HttpServletResponse) response;

@@ -51,6 +51,9 @@ public class AuthController {
 
     @Autowired
     private JwtService jwtService;
+    
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerAdmin(@RequestBody AdminEntity entity) {
@@ -176,14 +179,12 @@ public class AuthController {
     	
     	String otp = (String) session.getAttribute("otp");
     	
-    	if(AuthService.checkStudent(loginRequest.getEnrollmentId())) {
-    		return AuthService.changePasswordForStudent(loginRequest.getEnrollmentId(), loginRequest.getPassword(), loginRequest.getOtp(), otp);
+    	if(authService.checkStudent(loginRequest.getEnrollmentId()) != false) {
+    		return authService.changePasswordForStudent(loginRequest.getEnrollmentId(), loginRequest.getPassword(), loginRequest.getOtp(), otp);
+    	} else {
+    		return authService.changePasswordForAdmin(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getOtp(), otp);
     	}
     	
-    	if(AuthService.checkAdmin(loginRequest.getEmail())) {
-    		return AuthService.changePasswordForAdmin(loginRequest.getEmail(), loginRequest.getPassword(), loginRequest.getOtp(), otp);
-    	}
-    	return null;
     }
 
 }
