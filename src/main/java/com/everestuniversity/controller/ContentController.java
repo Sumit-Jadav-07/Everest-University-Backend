@@ -81,6 +81,7 @@ public class ContentController {
 
 		contentEntity = contentRepository.save(contentEntity);
 		return ResponseEntity.ok(contentEntity);
+		
 	}
 
 //	@DeleteMapping("/deleteannouncement")

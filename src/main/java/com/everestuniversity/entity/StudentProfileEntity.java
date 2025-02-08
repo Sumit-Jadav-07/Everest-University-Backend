@@ -1,6 +1,5 @@
 package com.everestuniversity.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -46,8 +45,8 @@ public class StudentProfileEntity {
     @Column(nullable = true)
     String address;
 
-    @Column(nullable = false)
-    LocalDate dob;
+    @Column(nullable = true)
+    String dateOfBirth;
 
     @Column(nullable = false)
     String gender; // Male, Female, Other
@@ -141,12 +140,12 @@ public class StudentProfileEntity {
 		this.address = address;
 	}
 
-	public LocalDate getDob() {
-		return dob;
+	public String getDateOfBirth() {
+		return dateOfBirth;
 	}
 
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	public String getGender() {

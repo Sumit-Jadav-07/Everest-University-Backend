@@ -42,7 +42,7 @@ public class AdmissionRequest {
     String gender;
 
     @Column(nullable = false)
-    LocalDate dateOfBirth;
+    String dateOfBirth;
 
     @Column(nullable = false)
     String city;
@@ -123,11 +123,11 @@ public class AdmissionRequest {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

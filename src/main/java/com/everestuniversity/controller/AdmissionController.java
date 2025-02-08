@@ -53,10 +53,6 @@ public class AdmissionController {
             ObjectMapper objectMapper = new ObjectMapper();
             AdmissionRequestDTO admissionRequestDTO = objectMapper.readValue(registrationJson, AdmissionRequestDTO.class);
 
-            // Convert the dateOfBirth from String to LocalDate
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate dateOfBirth = LocalDate.parse(admissionRequestDTO.getDateOfBirth(), formatter);
-
             String fullName = admissionRequestDTO.getSurName() + " " + admissionRequestDTO.getFirstName() + " "
                     + admissionRequestDTO.getMiddleName();
 
@@ -64,7 +60,7 @@ public class AdmissionController {
             String twelthFilePath = admissionRequestService.saveFilePath(twelthFile, fullName);
 
             AdmissionRequest request = admissionRequestService.mapDtoToEntity(admissionRequestDTO, tenthFilePath,
-                    twelthFilePath, dateOfBirth);
+                    twelthFilePath);
             admissionRequestService.saveRegistration(request);
             admissionRequestService.saveAdmission(request.getRegistrationId());
             response.put("message", "Registration successful");

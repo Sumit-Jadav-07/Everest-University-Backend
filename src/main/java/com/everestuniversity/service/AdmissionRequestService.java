@@ -27,7 +27,7 @@ public class AdmissionRequestService {
     @Autowired
     private AdmissionRepository admissionRepo;
 
-    public AdmissionRequest mapDtoToEntity(AdmissionRequestDTO admissionRequestDTO, String tenthPath, String twelthPath, LocalDate dateOfBirth) {
+    public AdmissionRequest mapDtoToEntity(AdmissionRequestDTO admissionRequestDTO, String tenthPath, String twelthPath) {
         AdmissionRequest request = new AdmissionRequest();
         request.setSurName(admissionRequestDTO.getSurName());
         request.setFirstName(admissionRequestDTO.getFirstName());
@@ -35,7 +35,7 @@ public class AdmissionRequestService {
         request.setEmail(admissionRequestDTO.getEmail());
         request.setMobileNo(admissionRequestDTO.getMobileNo());
         request.setGender(admissionRequestDTO.getGender());
-        request.setDateOfBirth(dateOfBirth);
+        request.setDateOfBirth(admissionRequestDTO.getDateOfBirth());
         request.setTenthFilePath(tenthPath);
         request.setTwelthPath(twelthPath);
         request.setCity(admissionRequestDTO.getCity());

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.everestuniversity.entity.AdmissionRequest;
 import com.everestuniversity.entity.StudentEntity;
+import com.everestuniversity.entity.StudentProfileEntity;
 import com.everestuniversity.repository.AdmissionRequestRepository;
+import com.everestuniversity.repository.StudentProfileRepository;
 import com.everestuniversity.repository.StudentRepository;
 
 @Service
@@ -23,6 +25,9 @@ public class AdmissionService {
 
     @Autowired
     private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    private StudentService studentService;
 
     // Method to approve registration, transfer data to StudentEntity, and delete
     // from RegistrationEntity
@@ -49,6 +54,9 @@ public class AdmissionService {
         student.setCreateAt(LocalDateTime.now());
 
         studentRepo.save(student);
+        
+        studentService.setStudentProfile(request.getEmail());
+        
     }
 
 }

@@ -1,6 +1,5 @@
 package com.everestuniversity.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class StudentEntity {
     String gender;
 
     @Column(nullable = false)
-    LocalDate dateOfBirth;
+    String dateOfBirth;
 
     @Column(nullable = false)
     String program; // e.g., "UG", "PG"
@@ -140,11 +139,11 @@ public class StudentEntity {
 		this.gender = gender;
 	}
 
-	public LocalDate getDateOfBirth() {
+	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

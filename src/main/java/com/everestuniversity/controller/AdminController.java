@@ -19,6 +19,7 @@ import com.everestuniversity.repository.AdmissionRequestRepository;
 import com.everestuniversity.service.AdmissionRequestService;
 import com.everestuniversity.service.AdmissionService;
 import com.everestuniversity.service.MailService;
+import com.everestuniversity.service.StudentService;
 import com.everestuniversity.service.UUIDService;
 
 @RestController
@@ -39,7 +40,7 @@ public class AdminController {
 
     @Autowired
     private MailService mailService;
-
+   
 	@GetMapping("/getalladmin")
 	public ResponseEntity<?> getAllAdmin() {
         HashMap<String, Object> response = new HashMap<>();
@@ -85,7 +86,7 @@ public class AdminController {
             admissionService.approveAdmission(uuid);
 
             mailService.sendEnrollementAndPassword(registration.getEmail());
-
+            
             admissionRequestRepo.delete(registration);
 
             response.put("message", "Admission approved successfully");
