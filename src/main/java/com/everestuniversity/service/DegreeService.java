@@ -49,4 +49,10 @@ public class DegreeService {
         return degreeRepo.findAll();
     }
 
+    public DegreeEntity updateDegree(DegreeEntity existingDegree, DegreeEntity degree) {
+        existingDegree.setDescription(degree.getDescription());
+        existingDegree.setDegreeCode(degree.getDegreeCode());
+        return degreeRepo.save(existingDegree);
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.everestuniversity.entity.AdminEntity;
@@ -16,15 +17,16 @@ import com.everestuniversity.repository.StudentRepository;
 public class AuthService {
 
 	@Autowired
-	static
 	StudentRepository studentRepo;
 	
 	@Autowired
-	static
 	AdminRepository adminRepo;
 	
+	@Autowired
+	BCryptPasswordEncoder encoder;
 	
-	public static boolean checkStudent(String enrollmentId) {
+	
+	public boolean checkStudent(String enrollmentId) {
 		Optional<StudentEntity> studentOp = studentRepo.findByEnrollmentId(enrollmentId);
 		if(studentOp.isEmpty()) {
 			return false;
@@ -32,7 +34,7 @@ public class AuthService {
 		return true;
 	}
 	
-	public static boolean checkAdmin(String email) {
+	public boolean checkAdmin(String email) {
 		Optional<AdminEntity> adminOp = adminRepo.findByEmail(email);
 		if(adminOp.isEmpty()) {
 			return false;
@@ -40,7 +42,7 @@ public class AuthService {
 		return true;
 	}
 	
-	public static ResponseEntity<?> changePasswordForStudent(String enrollmentId, String password, String newOtp, String  oldOtp) {
+	public ResponseEntity<?> changePasswordForStudent(String enrollmentId, String password, String newOtp, String  oldOtp) {
 		
 		HashMap<String, Object> response = new HashMap<>();
 		
@@ -55,7 +57,7 @@ public class AuthService {
 	          if (student.getEnrollmentId().equals(enrollmentId)) {
 	        	  
 	              if (newOtp.equals(oldOtp)) {
-	                  student.setPassword(password);
+	                  student.setPassword(encoder.encode(password));
 	                  studentRepo.save(student);
 	                  response.put("success", true);
 	                  response.put("message", "Password changed successfully");
@@ -79,7 +81,7 @@ public class AuthService {
       
 	}
 	
-	public static ResponseEntity<?> changePasswordForAdmin(String email, String password, String newOtp, String  oldOtp) {
+	public ResponseEntity<?> changePasswordForAdmin(String email, String password, String newOtp, String  oldOtp) {
 		
 		HashMap<String, Object> response = new HashMap<>();
 		

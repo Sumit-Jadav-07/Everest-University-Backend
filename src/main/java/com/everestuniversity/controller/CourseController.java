@@ -13,8 +13,6 @@ import com.everestuniversity.entity.CourseEntity;
 import com.everestuniversity.service.CourseService;
 import com.everestuniversity.service.SemesterService;
 
-
-
 @RestController
 @RequestMapping("/api/private/course")
 public class CourseController {

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("api/private/degree")
 public class DegreeController {
@@ -84,9 +83,24 @@ public class DegreeController {
 
     // Update Degreee API
     @PutMapping("/updateDegree")
-    public ResponseEntity<?> updateDegree(@RequestBody DegreeEntity degree) {
+    public ResponseEntity<?> updateDegree(@RequestParam String degreeId, @RequestBody DegreeEntity degree) {
         Map<String, Object> response = new HashMap<>();
-        return ResponseEntity.ok("");
+        try {
+
+            DegreeEntity existingDegree = degreeService.getDegreeById(degreeId);
+
+            DegreeEntity updatedDegree = degreeService.updateDegree(existingDegree, degree);
+
+            response.put("success", true);
+            response.put("message", "Degree updated");
+            response.put("updatedDegree", updatedDegree);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            response.put("message", e.getMessage());
+            response.put("success", false);
+            return ResponseEntity.ok(response);
+        }
     }
 
     // Add Semester to Degree API
@@ -98,6 +112,26 @@ public class DegreeController {
 
         String sanitizedId = degreeId.startsWith("0x") ? degreeId.substring(2) : degreeId;
         UUID uuid = UUIDService.formatUuid(sanitizedId);
+
+        // if (degree.getLevel() == "UG") {
+        // Long count = semesterRepository.countByDegree_DegreeId(uuid);
+
+        // if (count >= 6) {
+        // response.put("success", true);
+        // response.put("message", "Cannot add more than 6 semesters for a this
+        // degree");
+        // return ResponseEntity.ok(response);
+        // }
+        // } else if (degree.getLevel() == "PG") {
+        // Long count = semesterRepository.countByDegree_DegreeId(uuid);
+
+        // if (count >= 4) {
+        // response.put("success", true);
+        // response.put("message", "Cannot add more than 4 semesters for a this
+        // degree");
+        // return ResponseEntity.ok(response);
+        // }
+        // }
 
         DegreeEntity degree = degreeService.addSemesterToDegree(uuid, semester);
 

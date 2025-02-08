@@ -1,20 +1,30 @@
 package com.everestuniversity.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.everestuniversity.dto.LoginRequest;
 import com.everestuniversity.entity.StudentEntity;
+import com.everestuniversity.entity.StudentProfileEntity;
+import com.everestuniversity.repository.StudentProfileRepository;
 import com.everestuniversity.repository.StudentRepository;
 import com.everestuniversity.service.MailService;
+import com.everestuniversity.service.StudentService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -22,90 +32,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api/public/student")
+@RequestMapping("/api/private/student")
 public class StudentController {
 
     @Autowired
     private StudentRepository studentRepo;
-
+    
     @Autowired
-    private MailService mailService;
-
+    private StudentProfileRepository  studentProfileRepo;
+    
     @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    @PostMapping("/login")
-    public ResponseEntity<?> studentLogin(@RequestBody LoginRequest loginRequest) {
-        HashMap<String, Object> response = new HashMap<>();
-        System.out.println("Enrollment id: " + loginRequest.getEnrollmentId());
-        Optional<StudentEntity> op = studentRepo.findByEnrollmentId(loginRequest.getEnrollmentId());
-
-        if (op.isPresent()) {
-            StudentEntity student = op.get();
-            if (student.getPassword().equals(loginRequest.getPassword())) {
-                response.put("success", true);
-                response.put("message", "Student login successfull");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("success", false);
-                response.put("message", "Wrong password");
-                return ResponseEntity.ok(response);
-            }
-        } else {
-            response.put("success", false);
-            response.put("message", "Wrong enrollment id");
-            return ResponseEntity.ok(response);
-        }
+    private StudentService studentService;
+    
+    @GetMapping("/getallstudent")
+    public ResponseEntity<?> getAllStudent(){
+    	HashMap<String, Object> response = new HashMap<>();
+    	List<StudentEntity> students = studentRepo.findAll();
+    	response.put("success",true);
+    	response.put("message","Students fetched successfully");
+    	response.put("data", students);
+    	return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/sendotp")
-    public ResponseEntity<?> sendOtp(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        HashMap<String, Object> response = new HashMap<>();
-        Optional<StudentEntity> op = studentRepo.findByEmail(loginRequest.getEmail());
-        if (op.isPresent()) {
-            response.put("success", true);
-            response.put("message", "Otp sent successfully");
-            session.setAttribute("otp", mailService.sendOtp(loginRequest.getEmail()));
-            return ResponseEntity.ok(response);
-        } else {
-            response.put("success", false);
-            response.put("message", "Email not registered");
-            return ResponseEntity.ok(response);
-        }
+    
+    @GetMapping("/getstudentbyid")
+    public ResponseEntity<?> getStudentById(@RequestParam("studentId") String studentId){
+    	HashMap<String, Object> response = new HashMap<>();
+		StudentEntity student = studentService.getStudentById(studentId);
+		if(student != null) {
+			response.put("success", true);
+			response.put("message", "Student fetched successfully");
+			response.put("data", student);
+			return ResponseEntity.ok(response);
+		}
+		response.put("success", false);
+		response.put("message", "Student not found");
+		return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/forgotpassword")
-    public ResponseEntity<?> forgotPassword(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        HashMap<String, Object> response = new HashMap<>();
-        Optional<StudentEntity> op = studentRepo.findByEmail(loginRequest.getEmail());
-        if (op.isPresent()) {
-            StudentEntity student = op.get();
-            System.out.println("Enrollment id: " + student.getEnrollmentId());
-            System.out.println("Enrollment id: " + loginRequest.getEnrollmentId());
-            if (student.getEnrollmentId().equals(loginRequest.getEnrollmentId())) {
-                if (loginRequest.getOtp().equals(session.getAttribute("otp"))) {
-                    String enctyptedPassword = encoder.encode(loginRequest.getPassword());
-                    student.setPassword(enctyptedPassword);
-                    studentRepo.save(student);
-                    response.put("success", true);
-                    response.put("message", "Password changed successfully");
-                    session.removeAttribute("otp");
-                    return ResponseEntity.ok(response);
-                } else {
-                    response.put("success", false);
-                    response.put("message", "Wrong otp");
-                    return ResponseEntity.ok(response);
-                }
-            } else {
-                response.put("success", false);
-                response.put("message", "Wrong enrollment id");
-                return ResponseEntity.ok(response);
-            }
-        } else {
-            response.put("success", false);
-            response.put("message", "Wrong email");
-            return ResponseEntity.ok(response);
-        }
+    
+    @PutMapping("/updatestudent")
+    public ResponseEntity<?> updateStudent(@RequestParam("studentId") String studentID, 
+    		@RequestPart(value = "file", required = false) MultipartFile file,
+    		@RequestPart(value = "student", required = false) String studentJson){
+    	StudentProfileEntity student = new StudentProfileEntity();
+    	student.getAddress();
+    	return null;
     }
+    
 
 }

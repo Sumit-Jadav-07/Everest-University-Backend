@@ -12,4 +12,6 @@ public interface SemesterRepository extends JpaRepository<SemesterEntity, UUID> 
 
     List<SemesterEntity> findByDegree_DegreeId(UUID uuid);
 
+    Long countByDegree_DegreeId(UUID uuid);
+
 }

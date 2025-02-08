@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @RestController
-@RequestMapping("/api/private/admission")
+@RequestMapping("/api/public/admission")
 public class AdmissionController {
 
     @Autowired
@@ -79,39 +79,6 @@ public class AdmissionController {
         }
     }
 
-    @GetMapping("/approve")
-    public ResponseEntity<?> approveAdmission(@RequestParam String registrationId) {
-        HashMap<String, Object> response = new HashMap<>();
-        try {
-            String sanitizedId = registrationId.startsWith("0x") ? registrationId.substring(2) : registrationId;
-            UUID uuid = UUIDService.formatUuid(sanitizedId);
-
-            Optional<AdmissionRequest> op = admissionRequestRepo.findById(uuid);
-
-            if (!op.isPresent()) {
-                response.put("message", "Registration not found");
-                response.put("success", false);
-                return ResponseEntity.badRequest().body(response);
-            }
-
-            AdmissionRequest registration = op.get();
-
-            admissionRequestService.approveRegistration(uuid);
-            admissionService.approveAdmission(uuid);
-
-            mailService.sendEnrollementAndPassword(registration.getEmail());
-
-            admissionRequestRepo.delete(registration);
-
-            response.put("message", "Admission approved successfully");
-            response.put("success", true);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            response.put("message", "Failed to approve admission");
-            response.put("success", false);
-            response.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
+    
 
 }
