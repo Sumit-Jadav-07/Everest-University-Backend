@@ -1,5 +1,13 @@
 package com.everestuniversity.controller;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -11,14 +19,6 @@ import com.everestuniversity.entity.StudentProfileEntity;
 import com.everestuniversity.repository.StudentProfileRepository;
 import com.everestuniversity.repository.StudentRepository;
 import com.everestuniversity.service.StudentService;
-
-import java.util.HashMap;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/private/student")
@@ -62,8 +62,6 @@ public class StudentController {
 	public ResponseEntity<?> updateStudent(@RequestParam("studentId") String studentID,
 			@RequestPart(value = "file", required = false) MultipartFile file,
 			@RequestPart(value = "student", required = false) String studentJson) {
-		StudentProfileEntity student = new StudentProfileEntity();
-		student.getAddress();
 		return null;
 	}
 

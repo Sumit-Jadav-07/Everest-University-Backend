@@ -20,61 +20,61 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class StudentProfileEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID profileId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	UUID profileId;
 
-    @Column(nullable = false)
-    String firstname;
+	@Column(nullable = false)
+	String firstname;
 
-    @Column(nullable = false)
-    String middlename;
+	@Column(nullable = false)
+	String middlename;
 
-    @Column(nullable = false)
-    String surname;
+	@Column(nullable = false)
+	String surname;
 
-    @Column(nullable = false)
-    String fullname;
-
-    @Column(nullable = false, unique = true)
-    String email;
+	@Column(nullable = false)
+	String fullname;
 
 	@Column(nullable = false, unique = true)
-    String mobileNo;
+	String email;
 
-    @Column(nullable = true)
-    String address;
+	@Column(nullable = false, unique = true)
+	String mobileNo;
 
-    @Column(nullable = true)
-    String dateOfBirth;
+	@Column(nullable = true)
+	String address;
 
-    @Column(nullable = false)
-    String gender; // Male, Female, Other
+	@Column(nullable = true)
+	String dateOfBirth;
 
-    @Column(nullable = true)
-    String area;
+	@Column(nullable = false)
+	String gender; // Male, Female, Other
 
-    @Column(nullable = true)
-    String pincode;
+	@Column(nullable = true)
+	String area;
 
-    @Column(nullable = true)
-    String city;
+	@Column(nullable = true)
+	String pincode;
 
-    @Column(nullable = true)
-    String state;
+	@Column(nullable = true)
+	String city;
 
-    @Column(nullable = true)
-    String nationality;
+	@Column(nullable = true)
+	String state;
 
-    @Column(nullable = true)
-    String maritalStatus; // Single, Married, Divorced, Widowed
+	@Column(nullable = true)
+	String nationality;
 
-    @Column(nullable = false)
-    LocalDateTime createAt;
+	@Column(nullable = true)
+	String maritalStatus; // Single, Married, Divorced, Widowed
 
-    @OneToOne
-    @JoinColumn(name = "studentId")
-    StudentEntity student;
+	@Column(nullable = false)
+	LocalDateTime createAt;
+
+	@OneToOne
+	@JoinColumn(name = "studentId")
+	StudentEntity student;
 
 	public UUID getProfileId() {
 		return profileId;
@@ -219,7 +219,5 @@ public class StudentProfileEntity {
 	public void setStudent(StudentEntity student) {
 		this.student = student;
 	}
-    
-    
 
 }

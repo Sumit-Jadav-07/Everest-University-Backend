@@ -40,7 +40,7 @@ public class ProfileController {
 	CloudinaryService cloudinaryService;
 
 	@GetMapping("/getstudent")
-	public ResponseEntity<?> getStudent(@RequestParam UUID Id, @RequestParam String name) {
+	public ResponseEntity<?> getStudent(@RequestParam UUID Id) {
 		Optional<StudentEntity> optional = studentRepository.findById(Id);
 		if (optional.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found.");

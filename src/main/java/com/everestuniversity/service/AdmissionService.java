@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.everestuniversity.entity.AdmissionRequest;
 import com.everestuniversity.entity.StudentEntity;
-import com.everestuniversity.entity.StudentProfileEntity;
 import com.everestuniversity.repository.AdmissionRequestRepository;
 import com.everestuniversity.repository.StudentProfileRepository;
 import com.everestuniversity.repository.StudentRepository;
